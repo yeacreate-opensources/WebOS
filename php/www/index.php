@@ -1,6 +1,8 @@
 <?php
 
 $service_file = "/home/php/service.lock";
+
+$install = "/home/php/yeacreate/install";
    
 shell_exec("echo 1 > {$service_file}");
 
