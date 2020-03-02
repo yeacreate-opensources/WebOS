@@ -1,0 +1,7 @@
+{
+    "require": {
+        "workerman/workerman": "^3.5",
+        "workerman/gateway-worker": "^3.0",
+        "textalk/websocket": "^1.2"
+    }
+}
