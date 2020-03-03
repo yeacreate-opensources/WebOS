@@ -38,6 +38,8 @@ $install_php = "/home/php/www/index.php";
     
 shell_exec("rm {$install_php}");
 
+shell_exec("sync");
+
 shell_exec("reboot ");
 
 

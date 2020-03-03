@@ -470,7 +470,7 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
 
                         $data['signal'] = $wpa[2];  //信号强度
 
-                        if( $wpa[3] == '[ESS]' )
+                        if( @(explode('[ESS]', $wpa[3])[0]) == '' )
                         {
 
                             $data['flags'] = 1;  //1代表开放
