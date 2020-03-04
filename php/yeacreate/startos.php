@@ -1,8 +1,35 @@
 <?php
-
-/**
- *  基于workerman 的webrtc信令服务器(signaling server)
+/*
+###################################################
+##       .(@@@@@@@@@@@@@@@@@@@@@@@@@@@@(.        ##
+##     *@.                              .@(      ##
+##     @#                      *%(       *@      ##
+##     @#                     &.  &.     *@      ##
+##     @#       ,@&@.           @*       *@      ##
+##     @#       *@  @%          @*       *@      ##
+##     @#       *@   *@.        @*       *@      ##
+##     @#       *@     @(       @*       *@      ##
+##     @#       *@      #@      @*      #( &.    ##
+##     @#       *@        @/    @*       ,(      ##
+##     #&       *@         %&   @*               ##
+##       #@@@@@@@*    #@.   ,@, @*               ##
+##             #&       *@#   %@&     .@%        ##
+##       *@    #&         .@%           *@*      ##
+##      %&     #&           ,@#           &@     ##
+##     @/      #&                   #@     (@.   ##
+##   @&        #&                   &%      ,@(  ##
+##  ,          (@,                 #@.           ##
+##                @@@@@@@@@@@@@@@@@              ##
+###################################################
+################################################################################
+#
+# startos.php
+# http://yeacreate.com
+# run with command service
+# workerman service
+################################################################################
  */
+
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/config.php';
 use Workerman\Worker;
@@ -31,11 +58,6 @@ $yeacweboswebsocket->onConnect = function($connection)
         $new_message = "{\"command\":\"system_settings\",\"action\":\"set_connect_wifi\",\"state\":0}";
     }
     return $connection->send($new_message);
-    // $hwclock_file = "/tmp/hwclock_hctosys.pid";
-    // if( !file_exists($hwclock_file) ){
-    //     shell_exec("hwclock --hctosys");
-    //     shell_exec("echo 1 > {$hwclock_file}");
-    // }
 };
 
 $yeacweboswebsocket->onWorkerStart = function($yeacweboswebsocket)
@@ -74,24 +96,19 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
    switch ( @$data->command )
     {
 
-        case 'system_settings': //系统信息
+        case 'system_settings':
             wiringpisetup();
 
             /****************************** 音量调节 ******************************/
                 if( @$data->action == 'get_voice' )
                 {
-                    // @shell_exec("ps | grep 'enable_screen' | grep -v grep | awk '{print $1}' | xargs kill -9");
                     $get_current = explode('%', shell_exec("amixer get DAC | grep 'Right:' | awk -F '[][]' '{ print $2 }'"))[0];
 
                     $payload = ['command' =>'system_settings','action' =>'set_voice','volume' =>$get_current];
-                    // var_dump($message);
-                     // $connection->send(json_encode($payload));
                     foreach($yeacweboswebsocket->connections as $connection) {
                         $connection->send(json_encode($payload));
                     }
                     return ;
-                    // return Gateway::sendToAll(json_encode($payload));
-
                 }
 
                 if( @$data->action == 'sets_voice' )
@@ -113,12 +130,9 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
 
                     shell_exec("amixer -q set DAC '{$voice}%' ");
 
-                    // $now_current = explode('%', shell_exec("amixer get DAC | grep 'Right:' | awk -F '[][]' '{ print $2 }'"))[0];
-
                     $payload = ['command' =>'system_settings','action' =>'set_voice','volume' =>$voice];
                     return $connection->send(json_encode($payload));
 
-                    // return Gateway::sendToAll(json_encode($payload));
                 }
 
                 /****************************** 音量调节 ******************************/
@@ -127,14 +141,10 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
 
                 if( @$data->action == 'get_brightness' )
                 {
-                    // @shell_exec("ps | grep 'enable_screen' | grep -v grep | awk '{print $1}' | xargs kill -9");
                     $get_brightness = trim(shell_exec("cat /sys/class/backlight/backlight/brightness"));
 
                     $payload = ['command' =>'system_settings','action' =>'set_brightness','brightness' =>$get_brightness];
                     return $connection->send(json_encode($payload));
-
-                    // return Gateway::sendToAll(json_encode($payload));
-
                 }
 
                 if( @$data->action == 'sets_brightness' )
@@ -162,8 +172,6 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
 
                     return $connection->send(json_encode($payload));
 
-                    // return Gateway::sendToAll(json_encode($payload));
-
                 }
 
                  /****************************** 亮度调节 ******************************/
@@ -178,27 +186,10 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
 
                     $payload = ['command' =>'system_settings','action' =>'set_capacity','state' =>$state,'capacity' =>$now_capacity];
                     return $connection->send(json_encode($payload));
-
-                    // return Gateway::sendToAll(json_encode($payload));
-
                 }
                  /****************************** 电池状态 ******************************/
 
-                 /****************************** cpu温度 ******************************/
-                 if( @$data->action == 'get_celsius' )
-                {
-
-
-                    // $now_celsius = (int)trim(shell_exec("cat /sys/class/thermal/thermal_zone0/temp | sed 's/.\{3\}$/.&/'"))-20;
-
-                    // $payload = ['command' =>'system_settings','action' =>'set_celsius','celsius' =>$now_celsius];
-                    // return $connection->send(json_encode($payload));
-
-                    // return Gateway::sendToAll(json_encode($payload));
-
-                }
-                 /****************************** cpu温度 ******************************/
-
+                 /****************************** 是否启用屏幕 ******************************/
                  if( @$data->action == 'lighting_form' )
                 {
 
@@ -209,6 +200,7 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
                     }
 
                 }
+                 /****************************** 是否启用屏幕 ******************************/
 
                  /****************************** HDMI检测 ******************************/
                 if( @$data->action == 'get_hdmi_status' )
@@ -272,7 +264,6 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
                 /****************************** GPIO ******************************/
                 if( @$data->action == 'get_gpio' )
                 {
-                    // @shell_exec("ps | grep 'enable_screen' | grep -v grep | awk '{print $1}' | xargs kill -9");
                     $file = "/tmp/gpio_stop.txt";
                     if( file_exists($file) ){
                         shell_exec("rm -rf /tmp/gpio_stop.txt");
@@ -313,8 +304,9 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
                     return $connection->send(json_encode($payload));
                 }
                  /****************************** GPIO ******************************/
+            /****************************** 系统信息 ******************************/
             if( $data->action == 'get' )
-        {
+            {
             // @shell_exec("ps | grep 'enable_screen' | grep -v grep | awk '{print $1}' | xargs kill -9");
             $system_name = @$system_name_arr ?? 'Yea Create Webos';
             
@@ -354,16 +346,12 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
 
             $storage_usage = gethdd().'%';
 
-            // $now_celsius = (int)trim(shell_exec("cat /sys/class/thermal/thermal_zone0/temp | sed 's/.\{3\}$/.&/'"))-20;
-            // $now_celsius_0 = $now_celsius.'°C';
-            // $now_celsius_0 = trim(shell_exec("cat /sys/class/thermal/thermal_zone0/temp | sed 's/.\{3\}$/.&/'"));
-
             $new_message = "{\"command\":\"system_settings\",\"action\":\"set_system_info\",\"system_time\":\"$system_time\",\"up_time\":\"$up_time\",\"cpu_usage\":\"$cpu_usage\",\"memory_usage\":\"$memory_usage\",\"storage_usage\":\"$storage_usage\",\"system_ver\":\"$system_ver\",\"system_name\":\"$system_name\",\"network_state\":$network_state}";
 
             return $connection->send($new_message);
 
         }
-
+        /****************************** 系统信息 ******************************/
         if( $data->action == 'get_wifi_status' )  //wifi状态
         {
             $wpa_status = (int)trim(shell_exec("ps | grep 'wpa_supplicant' | grep -v grep | awk '{print $1}'"));
@@ -372,7 +360,6 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
             {
 
                 $state = 0;
-                // shell_exec("wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf");
 
             }else
             {
@@ -380,7 +367,6 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
                 $state = 1;
 
             }
-            // $state = (int)trim(shell_exec("cat  /sys/class/rfkill/rfkill0/state"));//1为上电状态；0为下电状态
 
             $new_message = "{\"command\":\"system_settings\",\"action\":\"set_wifi_status\",\"state\":$state}";
 
@@ -393,7 +379,6 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
 
             $state = (int)$data->state;
 
-            // $wifi_status = shell_exec("echo $state > /sys/class/rfkill/rfkill0/state");  //操作状态
             if( $state == 1 )
             {
 
@@ -434,7 +419,6 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
 
         if( $data->action == 'get_wifi_scan' )  //扫描wifi列表
         {
-            // @shell_exec("ps | grep 'enable_screen' | grep -v grep | awk '{print $1}' | xargs kill -9");
             $wlan0_scan_file = "/tmp/wpa_supplicant.pid";
                 if( !file_exists($wlan0_scan_file) ){
                     $wlan0_ok = trim(shell_exec("wpa_cli -i wlan0 -p /var/run/wpa_supplicant scan"));
@@ -457,11 +441,9 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
 
                 $data = [];
                 $wpa = explode("\t", $value);
-                // $new_arr[] = $wpa;
                 if( !empty($wpa[4]) )
                 {
 
-                    // $wpa_cli_a = strrchr($wpa[4],"\x");
                     $wpa_cli_a = strpos($wpa[4],'\\');;
                     if( $wpa_cli_a === false ){
                         $data['bssid'] = $wpa[0]; //路由器mac
@@ -484,9 +466,6 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
                         $wpa_status = '';
                         $network_id = '';
 
-                        // $wpa_status = trim(shell_exec("wpa_cli -i wlan0 list_network | grep -w '".$wpa[4]."' | awk '{print $2}'"));
-
-                        // $network_id = (int)trim(shell_exec("wpa_cli -i wlan0 list_network | grep -w '".$wpa[4]."' | awk '{print $1}'"));
                         $wpa_status_data = trim(shell_exec("wpa_cli -i wlan0 list_network | grep -w '".$wpa[4]."' | awk -Fany '{print $1}'"));
 
                         if( empty($wpa_status_data) )
@@ -502,25 +481,6 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
                           $data['network_id'] = (int)$wpa_arr[0];
 
                         }
-                        // if($wpa_status_data){
-                        //     $wpa_data = explode("\t", $wpa_status_data);
-                        //     $wpa_status = $wpa_data[1];
-                        //     $network_id = $wpa_data[0];
-                        //     var_dump($wpa_data);
-                        // }
-
-                        // if( @empty($wpa_status) && $wpa_status != $wpa[4] )
-                        // {
-
-                        //     $data['network_id'] = '';
-
-                        // }elseif( @!empty($wpa_status) && $wpa_status == $wpa[4] ){
-                        //     $data['network_id'] = $network_id;
-                        // }else
-                        // {
-
-                        //     $data['network_id'] = '';
-                        // }
 
                         $data['ssid'] = $wpa[4];
 
@@ -546,7 +506,6 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
 
             $password = $data->password;
 
-            // shell_exec("wpa_cli -i wlan0 -p /var/run/wpa_supplicant ap_scan 1"); //扫描选择AP
 
             $add_network = (int)trim(shell_exec("wpa_cli -i wlan0 add_network"));  //添加一个网络连接
 
@@ -556,17 +515,13 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
                 $set_ssid = trim(shell_exec("wpa_cli -i wlan0 set_network $add_network ssid '\"$ssid\"'")); //设置网络连接ssid
                 if( $set_ssid == 'OK' )
                 {
-                // echo $set_ssid.'================'.PHP_EOL;
 
                     if( empty($password) )
                     {
-                        // echo 'fsfsfd================'.PHP_EOL;
                         $set_psk = trim(shell_exec("wpa_cli -i wlan0 set_network $add_network key_mgmt NONE"));
 
                     }else
                     {
-
-                        // echo 'fsfsfd================'.PHP_EOL;
 
                         $set_psk = trim(shell_exec("wpa_cli -i wlan0 set_network $add_network psk '\"$password\"'"));
 
@@ -575,18 +530,12 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
                     if( $set_psk == 'OK' )
                     {
 
-                        // echo 'fsfsfd======password-ye=========='.PHP_EOL;
-                        // $enable_network = trim(shell_exec("wpa_cli -i wlan0 enable_network $add_network"));
-
                         $select_network = trim(shell_exec("wpa_cli -i wlan0 -p /var/run/wpa_supplicant select_network $add_network"));
 
                         shell_exec("wpa_cli -i wlan0 save_config");
 
                         if( $select_network == 'OK' )
                         {
-
-                            // $list = trim(shell_exec("wpa_cli -i wlan0 list_network"));
-                            // echo $list."===============list============".PHP_EOL;exit();
 
                             sleep(2);
                             shell_exec("wpa_cli -i wlan0 status");
@@ -599,12 +548,8 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
 
                             $wifi_result = trim(shell_exec("wpa_cli -i wlan0 status")); //分割连接返回结果集
 
-                            // echo $wifi_result.'========wifi_result========='.PHP_EOL;
-
                             $get_wifi_ssid = @trim(explode('=', @$wifi_connect_result[2])[1]); //获取ssid
 
-
-                            // echo $get_wifi_ssid.'============get_wifi_ssid==============='.$data->ssid.PHP_EOL;exit();
                             $get_wifi_bssid = @trim(explode('=', @$wifi_connect_result[0])[1]); //获取bssid,路由器mac
 
                             $get_wifi_status = @trim(explode('=', @$wifi_connect_result[9])[1]); //获取连接wifi状态，
@@ -692,7 +637,7 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
 
         }
 
-        if( $data->action == 'old_wifi_connect' )
+        if( $data->action == 'old_wifi_connect' ) // 旧wifi连接
         {
 
             $network_id = (int)$data->network_id;
@@ -762,7 +707,7 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
 
         }
 
-        if( @$data->action == 'wifi_auto_connect' )
+        if( @$data->action == 'wifi_auto_connect' ) // 无线自动连接
         {
 
             $wifi_connect_result = explode("\n", trim(shell_exec("wpa_cli -i wlan0 -p /var/run/wpa_supplicant status"))); //分割连接返回结果集
@@ -863,7 +808,7 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
 
         }
 
-        if( $data->action == 'wifi_forget' )
+        if( $data->action == 'wifi_forget' ) // 忘记wifi
         {
 
             $network_id = (int)$data->network_id;
@@ -906,23 +851,6 @@ $yeacweboswebsocket->onClose = function($connection)
 {
     // Timer::del($connection->start_id);
 };
-
-
-function export_out_add_value($id,$status=0,$value=0){
-    // if($status){
-    //     exec("echo out > /sys/class/gpio/gpio{$id}/direction");
-    //     exec("echo {$value} > /sys/class/gpio/gpio{$id}/value");
-    // }
-    // $id_value = exec("cat /sys/class/gpio/gpio{$id}/value");
-    // return $id_value;
-}
-
-function export_out_yield_array($data)
-{
-    foreach ($data as $key => $value) {
-        yield $value;
-    }
-}
 
 function export_out_add($id,$status=0,$value=0){
     if($status){
@@ -1028,9 +956,6 @@ function uptime()
     $days = floor($hours / 24); 
     $hours = floor($hours - ($days * 24)); 
     $min = floor($min - ($days * 60 * 24) - ($hours * 60)); 
-    // if ($days !== 0) $uptime = $days."天"; 
-    // if ($hours !== 0) $uptime .= $hours."小时"; 
-    // $uptime .= $min."分钟";
     if ($days !== 0) $uptime = $days."day"; 
     if ($hours !== 0) $uptime .= $hours."hour"; 
     $uptime .= $min."Minute";
@@ -1047,9 +972,6 @@ function getcputime(&$total,&$idle)
     $idle=$cpu[2][0]+$cpu[3][0]+$cpu[4][0]+$cpu[6][0]+$cpu[7][0]+$cpu[8][0]+$cpu[9][0];
 
 }
-
-
-
 
 // 如果不是在根目录启动，则运行runAll方法
 if(!defined('GLOBAL_START'))
