@@ -126,7 +126,7 @@
 
     '摄像头': 'Camera',
 
-    '打开摄像头': 'Open Camera',
+    '打开摄像头': 'Enable Camera',
 
     '关闭摄像头': 'Disable Camera',
 
@@ -160,6 +160,7 @@
 
     '网络状态': 'Networking',
 
+
     '系统名称': 'System Name',
 
     '系统时间': 'Time',
@@ -178,7 +179,7 @@
 
     '忘记网络': 'Forget this network',
 
-    '连接设备': 'Connection',
+    '连接设备': 'Connect',
 
     '退出': 'Exit',
 
@@ -216,7 +217,7 @@
 
     '获取接口信息': 'Get the information form the interface',
 
-    '已连接': 'Connected',
+    '已连接': 'Connecting',
 
     '未连接': 'Disconnected',
 

@@ -958,7 +958,7 @@ function uptime()
     $min = floor($min - ($days * 60 * 24) - ($hours * 60)); 
     if ($days !== 0) $uptime = $days."day"; 
     if ($hours !== 0) $uptime .= $hours."hour"; 
-    $uptime .= $min."Minute";
+    $uptime .= $min."Minutes";
     return $uptime;
 }
 
