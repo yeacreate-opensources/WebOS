@@ -30,7 +30,7 @@
  */
 $SIGNALING_ADDRESS_WEBSOCKET = 'websocket://localhost:2020';
 $SIGNALING_ADDRESS_WS = 'ws://localhost:2020';
-$system_ver_arr = '10101010';
+$system_ver_arr = '1010';
 $system_name_arr = 'Yea Create Webos';
 
 
