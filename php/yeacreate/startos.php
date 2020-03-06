@@ -194,7 +194,10 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswe
                 {
 
                     if( @$data->type == 1 ){
-                        @shell_exec("enable_screen 100 > /dev/null 2>&1 &");
+                        $enable_screen = @trim(shell_exec("ps | grep 'enable_screen' | grep -v grep | awk '{print $1}'"));
+                        if($enable_screen == ''){
+                            @shell_exec("enable_screen 100 > /dev/null 2>&1 &");
+                        }
                     }else{
                         @shell_exec("ps | grep 'enable_screen' | grep -v grep | awk '{print $1}' | xargs kill -9");
                     }
