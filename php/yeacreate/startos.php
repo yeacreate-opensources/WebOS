@@ -64,14 +64,15 @@ $yeacweboswebsocket->onWorkerStart = function($yeacweboswebsocket)
 {
     wiringpisetup();
     export_out_get();
+    @shell_exec("amixer -q set DAC '100%'");
     $file_test = '/proc/gpio_adc0';
     $echo_file_test = '/tmp/test_success.txt';
     Timer::add(1, function()use($yeacweboswebsocket,$echo_file_test,$file_test){
         if( file_exists($file_test) ){
-            $success = trim(shell_exec("cat {$file_test}"));
+            $success = @trim(shell_exec("cat {$file_test}"));
             $test_new_message = "{\"command\":\"system_settings\",\"action\":\"set_voltage\",\"voltage_value\":{$success}}";
             if( !file_exists($echo_file_test) ){
-                shell_exec("echo '{$success}' > {$echo_file_test}");
+                @shell_exec("echo '{$success}' > {$echo_file_test}");
                 foreach($yeacweboswebsocket->connections as $connection) {
                     $connection->send($test_new_message);
                 }
@@ -80,7 +81,7 @@ $yeacweboswebsocket->onWorkerStart = function($yeacweboswebsocket)
                 $success_test_add = $success_test+20;
                 $success_test_del = $success_test-20;
                 if( $success >= $success_test_add || $success <= $success_test_del ){
-                    shell_exec("echo '{$success}' > {$echo_file_test}");
+                    @shell_exec("echo '{$success}' > {$echo_file_test}");
                     foreach($yeacweboswebsocket->connections as $connection) {
                         $connection->send($test_new_message);
                     }
@@ -90,7 +91,7 @@ $yeacweboswebsocket->onWorkerStart = function($yeacweboswebsocket)
     });
 };
 // 当客户端发来数据时
-$yeacweboswebsocket->onMessage = function($connection, $message)use($yeacweboswebsocket,&$system_ver_arr,&$system_name_arr)
+$yeacweboswebsocket->onMessage = function($connection, $message)use(&$yeacweboswebsocket,&$system_ver_arr,&$system_name_arr)
 {
    $data = json_decode($message);
    switch ( @$data->command )
