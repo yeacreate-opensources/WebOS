@@ -12,6 +12,7 @@ case "$1" in
                 chmod 666 /dev/video-dec0;
                 echo enc > /dev/video-enc0;
                 chmod 666 /dev/video-enc0;
+                amixer -q set DAC '100%';
                 start-stop-daemon -S -q -m -b -p /tmp/weston.pid --exec /usr/bin/weston -- $WCOMMAND
                 start-stop-daemon -S -q -m -b -p /tmp/chromium.pid --exec /usr/bin/chromium -- $CCOMMAND
                 echo "done."
