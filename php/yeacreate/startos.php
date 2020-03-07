@@ -331,7 +331,7 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use(&$yeacwebosw
             }
             $base_version = @trim(shell_exec("cat /home/base_version"));
             $system_ver = @$system_ver_arr ?? '1010';
-            $system_ver = $system_ver.$base_version;
+            $system_ver = $base_version.$system_ver;
 
             ignore_user_abort();
 
