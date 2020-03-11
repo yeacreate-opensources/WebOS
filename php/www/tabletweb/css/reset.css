@@ -1,0 +1,237 @@
+/**
+ * Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/)
+ * http://cssreset.com
+ */
+ *{
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /*谷歌浏览器字体最小字体12px*/
+  -webkit-text-size-adjust: 100%;
+  /*100%/none 关闭字体大小自动调整功能*/
+  /*a标签及拥有 :active伪类的元素有默认的高亮框*/
+  -webkit-tap-hightlight-color: transparent;
+  /*禁止文本被选中*/
+  -webkit-user-select: none;
+}
+
+body {
+  /* overflow-x: hidden; */
+  /*开启moblie网页快速滚动和回弹的效果*/
+  -webkit-overflow-scrolling: touch;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+
+
+/* HTML5 display-role reset for older browsers */
+/* 
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+menu,
+nav,
+section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+} */
+
+/* custom */
+
+
+
+.clearfloat:after {
+  display: block;
+  clear: both;
+  content: "";
+  visibility: hidden;
+  height: 0;
+}
+
+.clearfloat {
+  zoom: 1;
+}
+
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden
+}
+
+#yea-create-loading-wrap{
+  position:absolute;
+  z-index: 9999999;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#yea-create-loading {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 9999999;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+#yea-create-loading img{
+  display: block;
+  text-align: center;
+  padding: 0;
+  margin: 20px auto 15px;
+  animation: yea_create_logo linear 1s infinite;
+  -webkit-animation: yea_create_logo linear 1s infinite;
+}
+
+#yea-create-loading .loading-wrap {
+  position: fixed;
+  margin: 0;
+  padding: 20px;
+  /* border: 3px solid #fff; */
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+#yea-create-loading .yea-create-loading {
+  padding: 0;
+  width: 0.15rem;
+  height: 0.15rem;
+  border-radius: 50%;
+  background: #2d8cf0;
+  float: left;
+  margin: 0 0.15rem;
+  animation: yea_create linear 1s infinite;
+  -webkit-animation: yea_create linear 1s infinite;
+}
+
+
+
+#yea-create-loading .yea-create-loading:nth-child(1) {
+  animation-delay: 0.5s;
+}
+
+#yea-create-loading .yea-create-loading:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+#yea-create-loading .yea-create-loading:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+#yea-create-loading .yea-create-loading:nth-child(4) {
+  animation-delay: 0.45s;
+}
+
+#yea-create-loading .yea-create-loading:nth-child(5) {
+  animation-delay: 0.6s;
+}
+
+@keyframes yea_create {
+
+  0%,
+  60%,
+  100% {
+    transform: scale(1);
+  }
+
+  30% {
+    transform: scale(2.5);
+  }
+}
+
+@-webkit-keyframes yea_create {
+
+  0%,
+  60%,
+  100% {
+    transform: scale(1);
+  }
+
+  30% {
+    transform: scale(2.5);
+  }
+}
+
+
+
+.yea_create_logo {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background: #68b2ce;
+  animation: yea_create_logo cubic-bezier(0.5,0.01,0.9,1) 0.6s infinite alternate;
+  -webkit-animation: yea_create_logo cubic-bezier(0.5,0.01,0.9,1) 0.6s infinite alternate;
+}
+@keyframes yea_create_logo
+{
+  0%{
+      transform:translateY(0px);
+      -webkit-transform:translateY(0px);
+  }
+  50% {
+      transform:translateY(-20px);
+      -webkit-transform:translateY(-20px);
+  }
+  100% {
+    transform:translateY(0px);
+    -webkit-transform:translateY(0px);
+  }
+}
+@-webkit-keyframes yea_create_logo
+{
+  0%{
+      transform:translateY(0px);
+      -webkit-transform:translateY(0px);
+  }
+  50% {
+      transform:translateY(-20px);
+      -webkit-transform:translateY(-20px);
+  }
+  100% {
+    transform:translateY(0px);
+    -webkit-transform:translateY(0px);
+  }
+}
