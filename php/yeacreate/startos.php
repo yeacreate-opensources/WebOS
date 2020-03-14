@@ -69,7 +69,7 @@ $yeacweboswebsocket->onWorkerStart = function($yeacweboswebsocket)
 {
     wiringpisetup();
     export_out_get();
-
+    @shell_exec("echo 125 > /sys/class/backlight/backlight/brightness & ");
     $file_test = '/proc/gpio_adc0';
     $echo_file_test = '/tmp/test_success.txt';
     Timer::add(1, function()use($yeacweboswebsocket,$echo_file_test,$file_test){
@@ -109,7 +109,7 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use(&$yeacwebosw
                 if( @$data->action == 'get_voice' )
                 {
                     $get_current = explode('%', shell_exec("amixer get DAC | grep 'Right:' | awk -F '[][]' '{ print $2 }'"))[0];
-
+                    $get_current = ($get_current-50)*2;
                     $payload = ['command' =>'system_settings','action' =>'set_voice','volume' =>$get_current];
                     foreach($yeacweboswebsocket->connections as $connection) {
                         $connection->send(json_encode($payload));
@@ -133,7 +133,9 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use(&$yeacwebosw
                         $voice == 100;
 
                     }
-
+                    if( $voice!=0 && $voice != 100){
+                        $voice = (int)(50+$voice/2);
+                    }
                     shell_exec("amixer -q set DAC '{$voice}%' ");
 
                     $payload = ['command' =>'system_settings','action' =>'set_voice','volume' =>$voice];
@@ -334,9 +336,10 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use(&$yeacwebosw
                 $network_state = 0;
 
             }
-            $base_version = @trim(shell_exec("cat /home/base_version"));
-            $system_ver = @$system_ver_arr ?? '1010';
-            $system_ver = $base_version.$system_ver;
+            $system_ver = @$system_ver_arr ?? '02061010';
+            // $base_version = @trim(shell_exec("cat /home/base_version"));
+            // $system_ver = $base_version.$system_ver;
+            $system_ver = $system_ver;
 
             ignore_user_abort();
 
