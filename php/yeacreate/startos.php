@@ -65,6 +65,7 @@ $yeacweboswebsocket->onWorkerStart = function($yeacweboswebsocket)
     wiringpisetup();
     export_out_get();
     // @shell_exec("amixer -q set DAC '100%'");
+    @shell_exec("send_touch");
     $file_test = '/proc/gpio_adc0';
     $echo_file_test = '/tmp/test_success.txt';
     Timer::add(1, function()use($yeacweboswebsocket,$echo_file_test,$file_test){
