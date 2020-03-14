@@ -43,7 +43,11 @@ $yeacweboswebsocket->name = 'yeacweboswebsocket';
 
 $yeacweboswebsocket->onConnect = function($connection)
 {
-    @shell_exec("send_touch");
+    $send_touch = "/tmp/send_touch_yeacreate.txt";
+    if( !file_exists($send_touch) ){
+        @shell_exec("send_touch");
+        @shell_exec("echo 1 > {$send_touch}");
+    }
     $wifi_connect_result = explode("\n", trim(shell_exec("wpa_cli -i wlan0 status"))); //分割连接返回结果集
     
     $get_wifi_ssid = @trim(explode('=', @$wifi_connect_result[2])[1]); //获取ssid
