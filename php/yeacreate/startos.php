@@ -43,6 +43,7 @@ $yeacweboswebsocket->name = 'yeacweboswebsocket';
 
 $yeacweboswebsocket->onConnect = function($connection)
 {
+    @shell_exec("send_touch");
     $wifi_connect_result = explode("\n", trim(shell_exec("wpa_cli -i wlan0 status"))); //分割连接返回结果集
     
     $get_wifi_ssid = @trim(explode('=', @$wifi_connect_result[2])[1]); //获取ssid
@@ -64,8 +65,7 @@ $yeacweboswebsocket->onWorkerStart = function($yeacweboswebsocket)
 {
     wiringpisetup();
     export_out_get();
-    // @shell_exec("amixer -q set DAC '100%'");
-    @shell_exec("send_touch");
+
     $file_test = '/proc/gpio_adc0';
     $echo_file_test = '/tmp/test_success.txt';
     Timer::add(1, function()use($yeacweboswebsocket,$echo_file_test,$file_test){
