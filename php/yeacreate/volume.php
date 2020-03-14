@@ -38,19 +38,19 @@ use WebSocket\{ConnectionException,BadOpcodeException,BadUriException};
 	$volume_size = isset($argv[1]) ? "{$argv[1]}" : '';
 	$get_current = explode('%', shell_exec("amixer get DAC | grep 'Right:' | awk -F '[][]' '{ print $2 }'"))[0];
 	if( $volume_size == '+' ){
-		$get_current_a = $get_current+2;
-		if($get_current_a > 100){
+		$get_current_a = $get_current+1;
+		if($get_current_a >= 100){
 			exec("amixer -q set DAC '100%'");
 		}else{
-			exec("amixer -q set DAC '2%+'");
+			exec("amixer -q set DAC '1%+'");
 		}
 		$volume = 1;
 	}else if( $volume_size == '-' ){
-		$get_current_b = $get_current-2;
-		if( $get_current_b < 0 ){
+		$get_current_b = $get_current-1;
+		if( $get_current_b <= 50 ){
 			exec("amixer -q set DAC '0'");
 		}else{
-			exec("amixer -q set DAC '2%-'");
+			exec("amixer -q set DAC '1%-'");
 		}
 		$volume = 1;
 	}
