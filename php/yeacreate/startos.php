@@ -127,12 +127,12 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use(&$yeacwebosw
                     if( $voice < 0 )
                     {
 
-                        $voice == 0;
+                        $voice = 0;
 
                     }elseif( $voice > 100 )
                     {
 
-                        $voice == 100;
+                        $voice = 100;
 
                     }
                     if( $voice!=0 && $voice != 100){
@@ -165,12 +165,12 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use(&$yeacwebosw
                     if( $set_brightness < 0 )
                     {
 
-                        $set_brightness == 0;
+                        $set_brightness = 0;
 
                     }elseif( $set_brightness > 255 )
                     {
 
-                        $set_brightness == 255;
+                        $set_brightness = 255;
 
                     }
 
