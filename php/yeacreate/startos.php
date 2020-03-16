@@ -110,7 +110,7 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use(&$yeacwebosw
                 {
                     $get_current = explode('%', shell_exec("amixer get DAC | grep 'Right:' | awk -F '[][]' '{ print $2 }'"))[0];
                     if( $get_current!=0 && $get_current != 100){
-                        $get_current = ($get_current-50)*2;
+                        $get_current = @(int)(($get_current-60)*2.5);
                     }
                     $payload = ['command' =>'system_settings','action' =>'set_voice','volume' =>$get_current];
                     foreach($yeacweboswebsocket->connections as $connection) {
@@ -136,7 +136,7 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use(&$yeacwebosw
 
                     }
                     if( $voice!=0 && $voice != 100){
-                        $voice = (int)(50+$voice/2);
+                        $voice = @(int)(60+$voice/2.5);
                     }
                     shell_exec("amixer -q set DAC '{$voice}%' ");
 
@@ -339,8 +339,6 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use(&$yeacwebosw
 
             }
             $system_ver = @$system_ver_arr ?? '02061010';
-            // $base_version = @trim(shell_exec("cat /home/base_version"));
-            // $system_ver = $base_version.$system_ver;
             $system_ver = $system_ver;
 
             ignore_user_abort();
