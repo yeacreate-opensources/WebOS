@@ -127,12 +127,12 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use(&$yeacwebosw
                     if( $voice < 0 )
                     {
 
-                        $voice == 0;
+                        $voice = 0;
 
                     }elseif( $voice > 100 )
                     {
 
-                        $voice == 100;
+                        $voice = 100;
 
                     }
                     if( $voice!=0 && $voice != 100){
