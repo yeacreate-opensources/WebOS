@@ -69,7 +69,7 @@ $yeacweboswebsocket->onWorkerStart = function($yeacweboswebsocket)
 {
     wiringpisetup();
     export_out_get();
-    @shell_exec("echo 125 > /sys/class/backlight/backlight/brightness & ");
+    @shell_exec("echo 138 > /sys/class/backlight/backlight/brightness & ");
     $file_test = '/proc/gpio_adc0';
     $echo_file_test = '/tmp/test_success.txt';
     Timer::add(1, function()use($yeacweboswebsocket,$echo_file_test,$file_test){
