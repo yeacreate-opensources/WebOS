@@ -43,7 +43,7 @@ use WebSocket\{ConnectionException,BadOpcodeException,BadUriException};
 			exec("amixer -q set DAC '100%'");
 		}else{
 			if($get_current_a <= 50){
-				exec("amixer -q set DAC '50%'");
+				exec("amixer -q set DAC '51%'");
 			}else{
 				exec("amixer -q set DAC '1%+'");
 			}
