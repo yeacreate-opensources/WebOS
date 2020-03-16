@@ -42,7 +42,11 @@ use WebSocket\{ConnectionException,BadOpcodeException,BadUriException};
 		if($get_current_a >= 100){
 			exec("amixer -q set DAC '100%'");
 		}else{
-			exec("amixer -q set DAC '1%+'");
+			if($get_current_a <= 50){
+				exec("amixer -q set DAC '50%'");
+			}else{
+				exec("amixer -q set DAC '1%+'");
+			}
 		}
 		$volume = 1;
 	}else if( $volume_size == '-' ){

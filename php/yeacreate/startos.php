@@ -109,7 +109,9 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use(&$yeacwebosw
                 if( @$data->action == 'get_voice' )
                 {
                     $get_current = explode('%', shell_exec("amixer get DAC | grep 'Right:' | awk -F '[][]' '{ print $2 }'"))[0];
-                    $get_current = ($get_current-50)*2;
+                    if( $get_current!=0 && $get_current != 100){
+                        $get_current = ($get_current-50)*2;
+                    }
                     $payload = ['command' =>'system_settings','action' =>'set_voice','volume' =>$get_current];
                     foreach($yeacweboswebsocket->connections as $connection) {
                         $connection->send(json_encode($payload));
