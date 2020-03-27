@@ -63,7 +63,7 @@ $s91chromium = "{$etc_cp}S91chromium";
 $content_s91chromium = @file_get_contents($s91chromium); //读文件
 $content_s91chromium = @str_replace(array('http://127.0.0.1','http://localhost'),'/home/php/www/tabletweb/index.html',$content_s91chromium);
 $content_s91chromium_data = @explode('chmod 666 /dev/video-enc0;',$content_s91chromium);
-$content_s91chromium = $content_s91chromium_data[0].'chmod 666 /dev/video-enc0;'."\n\t\t\amixer -q set DAC '100%';".$content_s91chromium_data[1];
+$content_s91chromium = $content_s91chromium_data[0].'chmod 666 /dev/video-enc0;'."\n\t\tamixer -q set DAC '100%';".$content_s91chromium_data[1];
 @file_put_contents($s91chromium, $content_s91chromium);
 shell_exec("dos2unix {$s91chromium}");
 shell_exec("chmod -R 0755 {$s91chromium}");
