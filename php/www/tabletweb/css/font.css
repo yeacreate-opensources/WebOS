@@ -1,14 +1,8 @@
 @font-face {
   /* 重命名字体名 */
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'LcdD';
   /* 引入字体 */
-  src: url('/usr/share/fonts/liberation/LiberationSans-Bold.ttf');
-  src: url('/usr/share/fonts/liberation/LiberationSans-ExtraLight.ttf');
-  src: url('/usr/share/fonts/liberation/LiberationSans-Heavy.ttf');
-  src: url('/usr/share/fonts/liberation/LiberationSans-Light.ttf');
-  src: url('/usr/share/fonts/liberation/LiberationSans-Medium.ttf');
-  src: url('/usr/share/fonts/liberation/LiberationSans-Normal.ttf');
-  src: url('/usr/share/fonts/liberation/LiberationSans-Regular.ttf');
+  src: url('./LcdD.ttf');
   font-weight: normal;
   font-style: normal;
 }
