@@ -29,5 +29,6 @@
 # php restart.php
 ################################################################################
  */
-	shell_exec("/usr/bin/php /home/php/yeacreate/start.php start -d");
+$php_php = @trim(str_replace(PHP_EOL,'',shell_exec("which php")));
+	shell_exec("{$php_php} /home/php/yeacreate/start.php start -d");
 	

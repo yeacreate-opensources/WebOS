@@ -303,7 +303,7 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use(&$yeacwebosw
                 }
                 if( @$data->action == 'sets_gpio_add' )
                 {
-                    $php_php = exec("which php");
+                    $php_php = @trim(str_replace(PHP_EOL,'',shell_exec("which php")));
                     shell_exec("echo 1 > /tmp/gpio_stop.txt");
                     shell_exec("{$php_php} /home/php/yeacreate/stop.php > /dev/null 2>&1 &");
                 
