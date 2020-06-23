@@ -573,8 +573,13 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use(&$yeacwebosw
 
                             if( $get_wifi_ssid == $data->ssid && $get_wifi_status == 'COMPLETED'  )
                             {
-
-                                $new_message = "{\"command\":\"system_settings\",\"action\":\"set_connect_wifi\",\"state\":1,\"ssid\":\"$get_wifi_ssid\",\"bssid\":\"$get_wifi_bssid\",\"ip\":\"$get_wifi_ip\",\"address\":\"$get_wifi_address\"}";
+                                $pattern = '/^(?:(?:2[0-4][0-9]\.)|(?:25[0-5]\.)|(?:1[0-9][0-9]\.)|(?:[1-9][0-9]\.)|(?:[0-9]\.)){3}(?:(?:2[0-5][0-5])|(?:25[0-5])|(?:1[0-9][0-9])|(?:[1-9][0-9])|(?:[1-9]))$/';
+                                if( preg_match($pattern,$get_wifi_ip) ){
+                                    $ip = $get_wifi_ip;
+                                }else{
+                                    $ip = '';
+                                }
+                                $new_message = "{\"command\":\"system_settings\",\"action\":\"set_connect_wifi\",\"state\":1,\"ssid\":\"$get_wifi_ssid\",\"bssid\":\"$get_wifi_bssid\",\"ip\":\"$ip\",\"address\":\"$get_wifi_address\"}";
 
                                 return $connection->send($new_message);
 
@@ -682,8 +687,13 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use(&$yeacwebosw
 
                 if( $get_wifi_ssid == $data->ssid && $get_wifi_status == 'COMPLETED'  )
                 {
-
-                    $new_message = "{\"command\":\"system_settings\",\"action\":\"set_connect_wifi\",\"state\":1,\"ssid\":\"$get_wifi_ssid\",\"bssid\":\"$get_wifi_bssid\",\"ip\":\"$get_wifi_ip\",\"address\":\"$get_wifi_address\"}";
+                    $pattern = '/^(?:(?:2[0-4][0-9]\.)|(?:25[0-5]\.)|(?:1[0-9][0-9]\.)|(?:[1-9][0-9]\.)|(?:[0-9]\.)){3}(?:(?:2[0-5][0-5])|(?:25[0-5])|(?:1[0-9][0-9])|(?:[1-9][0-9])|(?:[1-9]))$/';
+                    if( preg_match($pattern,$get_wifi_ip) ){
+                        $ip = $get_wifi_ip;
+                    }else{
+                        $ip = '';
+                    }
+                    $new_message = "{\"command\":\"system_settings\",\"action\":\"set_connect_wifi\",\"state\":1,\"ssid\":\"$get_wifi_ssid\",\"bssid\":\"$get_wifi_bssid\",\"ip\":\"$ip\",\"address\":\"$get_wifi_address\"}";
 
                     return $connection->send($new_message);
 
@@ -737,8 +747,14 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use(&$yeacwebosw
 
             if( $get_wifi_status == 'COMPLETED'  )
             {
+                $pattern = '/^(?:(?:2[0-4][0-9]\.)|(?:25[0-5]\.)|(?:1[0-9][0-9]\.)|(?:[1-9][0-9]\.)|(?:[0-9]\.)){3}(?:(?:2[0-5][0-5])|(?:25[0-5])|(?:1[0-9][0-9])|(?:[1-9][0-9])|(?:[1-9]))$/';
+                if( preg_match($pattern,$get_wifi_ip) ){
+                    $ip = $get_wifi_ip;
+                }else{
+                    $ip = '';
+                }
 
-                $new_message = "{\"command\":\"system_settings\",\"action\":\"set_auto_connect\",\"state\":1,\"ssid\":\"$get_wifi_ssid\",\"bssid\":\"$get_wifi_bssid\",\"ip\":\"$get_wifi_ip\",\"address\":\"$get_wifi_address\"}";
+                $new_message = "{\"command\":\"system_settings\",\"action\":\"set_auto_connect\",\"state\":1,\"ssid\":\"$get_wifi_ssid\",\"bssid\":\"$get_wifi_bssid\",\"ip\":\"$ip\",\"address\":\"$get_wifi_address\"}";
 
                  return $connection->send($new_message);
 
@@ -777,7 +793,14 @@ $yeacweboswebsocket->onMessage = function($connection, $message)use(&$yeacwebosw
                             if( $get_wifi_ssid == $data->ssid && $get_wifi_status == 'COMPLETED'  )
                             {
 
-                                $new_message = "{\"command\":\"system_settings\",\"action\":\"set_auto_connect\",\"state\":1,\"ssid\":\"$get_wifi_ssid\",\"bssid\":\"$get_wifi_bssid\",\"ip\":\"$get_wifi_ip\",\"address\":\"$get_wifi_address\"}";
+                                $pattern = '/^(?:(?:2[0-4][0-9]\.)|(?:25[0-5]\.)|(?:1[0-9][0-9]\.)|(?:[1-9][0-9]\.)|(?:[0-9]\.)){3}(?:(?:2[0-5][0-5])|(?:25[0-5])|(?:1[0-9][0-9])|(?:[1-9][0-9])|(?:[1-9]))$/';
+                                if( preg_match($pattern,$get_wifi_ip) ){
+                                    $ip = $get_wifi_ip;
+                                }else{
+                                    $ip = '';
+                                }
+
+                                $new_message = "{\"command\":\"system_settings\",\"action\":\"set_auto_connect\",\"state\":1,\"ssid\":\"$get_wifi_ssid\",\"bssid\":\"$get_wifi_bssid\",\"ip\":\"$ip\",\"address\":\"$get_wifi_address\"}";
 
                                 return $connection->send($new_message);
 
