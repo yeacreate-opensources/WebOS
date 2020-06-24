@@ -65,6 +65,13 @@ $content_s91chromium = @str_replace(array('http://127.0.0.1','http://localhost')
 $content_s91chromium_data = @explode('chmod 666 /dev/video-enc0;',$content_s91chromium);
 $content_s91chromium = $content_s91chromium_data[0].'chmod 666 /dev/video-enc0;'."\n\t\tamixer -q set DAC '100%';".$content_s91chromium_data[1];
 @file_put_contents($s91chromium, $content_s91chromium);
+
+// $content_s91chromium_a = @file_get_contents($s91chromium); //读文件
+// $content_s91chromium_a = @str_replace(array('--silent-debugger-extension-api ','--cast-initial-screen-width ','--use-gpu-in-tests ','--window-size=1,1 ','--mem-pressure-system-reserved-kb ','--audio-buffer-size=0 ','--disk-cache-size=0 ','--media-cache-size=0 ','--disable-gpu-vsync ','--disable-native-gpu-memory-buffers ','--disable-new-virtual-keyboard-behavior ','--disable-partial-raster ','--material-hybrid ','--disable-webrtc-encryption ','--disable-webrtc-hw-decoding ','--disable-webrtc-hw-encoding'),'',$content_s91chromium_a);
+// $content_s91chromium_data_a = @explode('CCOMMAND="',$content_s91chromium_a);
+// $content_s91chromium_a = $content_s91chromium_data_a[0].'CCOMMAND="'.'--silent-debugger-extension-api --cast-initial-screen-width --use-gpu-in-tests --window-size=1,1 --mem-pressure-system-reserved-kb --audio-buffer-size=0 --disk-cache-size=0 --media-cache-size=0 --disable-gpu-vsync --disable-native-gpu-memory-buffers --disable-new-virtual-keyboard-behavior --disable-partial-raster --material-hybrid --disable-webrtc-encryption --disable-webrtc-hw-decoding --disable-webrtc-hw-encoding '.$content_s91chromium_data_a[1];
+// @file_put_contents($s91chromium, $content_s91chromium_a);
+
 shell_exec("dos2unix {$s91chromium}");
 shell_exec("chmod -R 0755 {$s91chromium}");
 
